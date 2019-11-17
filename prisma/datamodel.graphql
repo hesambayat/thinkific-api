@@ -1,0 +1,73 @@
+enum Rule {
+  STUDENT
+  INSTRACTOR
+}
+
+type User {
+  id: ID! @id @unique
+  name: String!
+  email: String! @unique
+  password: String!
+  rule: Rule @default(value: STUDENT)
+  courses: [Course!] @relation(name: "UserToCourses", onDelete: CASCADE)
+  histories: [History!] @relation(name: "UserToHistories", onDelete: CASCADE)
+  enrollments: [Enrolment!] @relation(name: "UserToEnrollments", onDelete: CASCADE)
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
+
+type Course {
+  id: ID! @id @unique
+  name: String!
+  subtitle: String
+  desciption: String
+  price: Float
+  duration: Float
+  author: User! @relation(name: "UserToCourses", onDelete: SET_NULL)
+  captures: [Capture!] @relation(name: "CourseToCaptures", onDelete: CASCADE)
+  attendees: [Enrolment!] @relation(name: "CourseToEnrollments", onDelete: CASCADE)
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
+
+type Capture {
+  id: ID! @id @unique
+  title: String!
+  order: Int!
+  course: Course! @relation(name: "CourseToCaptures", onDelete: SET_NULL)
+  contents: [Content!] @relation(name: "CaptureToContents", onDelete: CASCADE)
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
+
+type Content {
+  id: ID! @id @unique
+  title: String!
+  data: String
+  type: String @default(value: "video")
+  order: Int!
+  capture: Capture! @relation(name: "CaptureToContents", onDelete: SET_NULL)
+  histories: [History!] @relation(name: "ContentToHistories", onDelete: CASCADE)
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
+
+type History {
+  id: ID! @id @unique
+  action: String!
+  data: String
+  student: User! @relation(name: "UserToHistories", onDelete: SET_NULL)
+  content: Content! @relation(name: "ContentToHistories", onDelete: SET_NULL)
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
+
+type Enrolment {
+  id: ID! @id @unique
+  action: String!
+  data: String
+  student: User! @relation(name: "UserToEnrollments", onDelete: SET_NULL)
+  course: Course! @relation(name: "CourseToEnrollments", onDelete: SET_NULL)
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
