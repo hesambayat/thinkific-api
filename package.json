@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "get-schema": "graphql get-schema -p prisma --dotenv config/dev.env"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +15,9 @@
     "@babel/core": "^7.6.4",
     "@babel/node": "^7.6.3",
     "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
-    "@babel/preset-env": "^7.6.3"
+    "@babel/preset-env": "^7.6.3",
+    "env-cmd": "^10.0.1",
+    "graphql-cli": "^3.0.14"
   },
   "dependencies": {
     "@babel/polyfill": "^7.6.0",
