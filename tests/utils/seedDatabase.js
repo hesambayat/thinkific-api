@@ -22,6 +22,14 @@ const testCapture = {
   capture: undefined
 }
 
+const testContent = {
+  input: {
+    title: 'Fuzzy cat video',
+    order: 0
+  },
+  content: undefined
+}
+
 const testUser = {
   input: {
     name: 'Sara',
@@ -81,6 +89,18 @@ const seedDatabase = async () => {
       }
     }
   })
+
+  // Create test content
+  testContent.content = await prisma.mutation.createContent({
+    data: {
+      ...testContent.input,
+      capture: {
+        connect: {
+          id: testCapture.capture.id
+        }
+      }
+    }
+  })
 }
 
-export { seedDatabase as default, testCourse, testCapture, testUser, testGuestUser }
+export { seedDatabase as default, testCourse, testCapture, testContent, testUser, testGuestUser }

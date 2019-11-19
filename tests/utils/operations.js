@@ -83,6 +83,56 @@ const deleteCapture = gql`
   }
 `
 
+const createContent = gql`
+  mutation($courseId: ID!, $captureId: ID!, $data: ContentCreateInput!) {
+    createContent(
+      courseId: $courseId
+      captureId: $captureId
+      data: $data
+    ){
+      id
+      title
+      data
+      order
+      capture {
+        id
+        title
+      }
+    }
+  }
+`
+
+const updateContent = gql`
+  mutation($courseId: ID!, $captureId: ID!, $id: ID!, $data: ContentUpdateInput!) {
+    updateContent(
+      courseId: $courseId
+      captureId: $captureId
+      id: $id
+      data: $data
+    ){
+      id
+      title
+      data
+      order
+    }
+  }
+`
+
+const deleteContent = gql`
+  mutation($courseId: ID!, $captureId: ID!, $id: ID!) {
+    deleteContent(
+      courseId: $courseId
+      captureId: $captureId
+      id: $id
+    ){
+      id
+      title
+      data
+      order
+    }
+  }
+`
+
 const createUser = gql`
   mutation($data: UserCreateInput!) {
     createUser(
@@ -142,6 +192,9 @@ export {
   createCapture,
   updateCapture,
   deleteCapture,
+  createContent,
+  updateContent,
+  deleteContent,
   createUser,
   getProfile,
   getUsers,

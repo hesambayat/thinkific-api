@@ -150,6 +150,126 @@ const Mutation = {
       }
     }, info)
   },
+  async createContent(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request)
+    const courseExists = await prisma.exists.Course({
+      id: args.courseId,
+      author: {
+        id: userId
+      }
+    })
+
+    if (!courseExists) {
+      throw new Error('Course not found!')
+    }
+
+    const captureExists = await prisma.exists.Capture({
+      id: args.captureId,
+      course: {
+        id: args.courseId
+      }
+    })
+
+    if (!captureExists) {
+      throw new Error('Capture not found!')
+    }
+
+    const capture = {
+      connect: {
+        id: args.captureId
+      }
+    }
+
+    return prisma.mutation.createContent({
+      data: {
+        ...args.data,
+        capture
+      }
+    })
+  },
+  async updateContent(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request)
+    const courseExists = await prisma.exists.Course({
+      id: args.courseId,
+      author: {
+        id: userId
+      }
+    })
+
+    if (!courseExists) {
+      throw new Error('Course not found!')
+    }
+
+    const captureExists = await prisma.exists.Capture({
+      id: args.captureId,
+      course: {
+        id: args.courseId
+      }
+    })
+
+    if (!captureExists) {
+      throw new Error('Capture not found!')
+    }
+
+    const contentExists = await prisma.exists.Content({
+      id: args.id,
+      capture: {
+        id: args.captureId
+      }
+    })
+
+    if (!contentExists) {
+      throw new Error('Content not found!')
+    }
+
+    return prisma.mutation.updateContent({
+      where: {
+        id: args.id
+      },
+      data: args.data
+    }, info)
+  },
+  async deleteContent(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request)
+    const courseExists = await prisma.exists.Course({
+      id: args.courseId,
+      author: {
+        id: userId
+      }
+    })
+
+    if (!courseExists) {
+      throw new Error('Course not found!')
+    }
+
+    const captureExists = await prisma.exists.Capture({
+      id: args.captureId,
+      course: {
+        id: args.courseId
+      }
+    })
+
+    if (!captureExists) {
+      throw new Error('Capture not found!')
+    }
+
+    const contentExists = await prisma.exists.Content({
+      id: args.id,
+      capture: {
+        id: args.captureId
+      }
+    })
+
+    if (!contentExists) {
+      throw new Error('Content not found!')
+    }
+
+    return prisma.mutation.deleteContent({
+      where: {
+        id: args.id
+      }
+    }, info)
+  },
   async createUser(parent, args, { prisma }, info) {
     const password = await hashPassword(args.data.password)
 
