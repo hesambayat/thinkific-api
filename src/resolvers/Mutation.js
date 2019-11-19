@@ -89,6 +89,67 @@ const Mutation = {
       }
     })
   },
+  async updateCapture(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request)
+    const courseExists = await prisma.exists.Course({
+      id: args.courseId,
+      author: {
+        id: userId
+      }
+    })
+
+    if (!courseExists) {
+      throw new Error('Course not found!')
+    }
+
+    const captureExists = await prisma.exists.Capture({
+      id: args.id,
+      course: {
+        id: args.courseId
+      }
+    })
+
+    if (!captureExists) {
+      throw new Error('Capture not found!')
+    }
+
+    return prisma.mutation.updateCapture({
+      where: {
+        id: args.id
+      },
+      data: args.data
+    }, info)
+  },
+  async deleteCapture(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request)
+    const courseExists = await prisma.exists.Course({
+      id: args.courseId,
+      author: {
+        id: userId
+      }
+    })
+
+    if (!courseExists) {
+      throw new Error('Course not found!')
+    }
+
+    const captureExists = await prisma.exists.Capture({
+      id: args.id,
+      course: {
+        id: args.courseId
+      }
+    })
+
+    if (!captureExists) {
+      throw new Error('Capture not found!')
+    }
+
+    return prisma.mutation.deleteCapture({
+      where: {
+        id: args.id
+      }
+    }, info)
+  },
   async createUser(parent, args, { prisma }, info) {
     const password = await hashPassword(args.data.password)
 

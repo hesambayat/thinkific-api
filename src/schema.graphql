@@ -1,4 +1,4 @@
-# import CourseUpdateInput, UserOrderByInput, UserWhereInput, BatchPayload from './generated/prisma.graphql'
+# import CourseUpdateInput, CaptureUpdateInput, UserOrderByInput, UserWhereInput, BatchPayload from './generated/prisma.graphql'
 
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
@@ -11,6 +11,8 @@ type Mutation {
   updateCourse(id: ID!, data: CourseUpdateInput!): Course!
   deleteCourse(id: ID!): Course!
   createCapture(courseId: ID!, data: CaptureCreateInput!): Capture!
+  updateCapture(courseId: ID!, id: ID!, data: CaptureUpdateInput!): Capture!
+  deleteCapture(courseId: ID!, id: ID!): Capture!
   login(data: LoginUserInput!): AuthPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
