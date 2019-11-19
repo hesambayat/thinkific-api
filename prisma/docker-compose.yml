@@ -15,7 +15,7 @@ services:
             host: ${POSTGRES_HOST}
             database: ${POSTGRES_DATABASE}
             user: ${POSTGRES_USER}
-            password: ${POSTGRES_PASSWORD}"
+            password: ${POSTGRES_PASSWORD}
             port: ${POSTGRES_PORT}
             ssl: true
             rawAccess: true
