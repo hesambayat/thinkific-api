@@ -1,4 +1,4 @@
-# import UserOrderByInput, UserWhereInput, BatchPayload from './generated/prisma.graphql'
+# import CourseUpdateInput, UserOrderByInput, UserWhereInput, BatchPayload from './generated/prisma.graphql'
 
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
@@ -8,6 +8,7 @@ type Query {
 type Mutation {
   createUser(data: UserCreateInput!): AuthPayload!
   createCourse(data: CourseCreateInput!): Course!
+  updateCourse(id: ID!, data: CourseUpdateInput!): Course!
   login(data: LoginUserInput!): AuthPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
@@ -45,6 +46,7 @@ type Course {
   id: ID!
   name: String!
   author: User
+  price: Float
   updatedAt: String!
   createdAt: String!
 }
