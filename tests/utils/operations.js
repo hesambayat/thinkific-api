@@ -39,6 +39,23 @@ const deleteCourse = gql`
   }
 `
 
+const createCapture = gql`
+  mutation($courseId: ID!, $data: CaptureCreateInput!) {
+    createCapture(
+      courseId: $courseId
+      data: $data
+    ){
+      id
+      title
+      order
+      course {
+        id
+        name
+      }
+    }
+  }
+`
+
 const createUser = gql`
   mutation($data: UserCreateInput!) {
     createUser(
@@ -60,6 +77,10 @@ const getProfile = gql`
       id
       name
       email
+      courses {
+        id
+        name
+      }
     }
   }
 `
@@ -87,4 +108,4 @@ const login = gql`
   }
 `
 
-export { createCourse, updateCourse, deleteCourse, createUser, getProfile, getUsers, login }
+export { createCourse, updateCourse, deleteCourse, createCapture, createUser, getProfile, getUsers, login }

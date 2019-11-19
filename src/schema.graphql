@@ -10,6 +10,7 @@ type Mutation {
   createCourse(data: CourseCreateInput!): Course!
   updateCourse(id: ID!, data: CourseUpdateInput!): Course!
   deleteCourse(id: ID!): Course!
+  createCapture(courseId: ID!, data: CaptureCreateInput!): Capture!
   login(data: LoginUserInput!): AuthPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
@@ -29,6 +30,11 @@ input CourseCreateInput {
   name: String!
 }
 
+input CaptureCreateInput {
+  title: String!
+  order: Int
+}
+
 input LoginUserInput {
   email: String!
   password: String!
@@ -39,6 +45,7 @@ type User {
   name: String!
   email: String
   password: String!
+  courses: [Course!]
   updatedAt: String!
   createdAt: String!
 }
@@ -46,8 +53,22 @@ type User {
 type Course {
   id: ID!
   name: String!
-  author: User
+  subtitle: String
+  desciption: String
   price: Float
+  duration: Float
+  author: User
+  captures: [Capture!]
+  updatedAt: String!
+  createdAt: String!
+}
+
+type Capture {
+  id: ID!
+  title: String!
+  order: Int!
+  course: Course
+  contents: [Content!]
   updatedAt: String!
   createdAt: String!
 }

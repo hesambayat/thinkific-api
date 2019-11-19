@@ -14,6 +14,14 @@ const testCourse = {
   course: undefined
 }
 
+const testCapture = {
+  input: {
+    title: 'Lecture one: why?',
+    order: 0
+  },
+  capture: undefined
+}
+
 const testUser = {
   input: {
     name: 'Sara',
@@ -61,6 +69,18 @@ const seedDatabase = async () => {
       }
     }
   })
+
+  // Create test capture
+  testCapture.capture = await prisma.mutation.createCapture({
+    data: {
+      ...testCapture.input,
+      course: {
+        connect: {
+          id: testCourse.course.id
+        }
+      }
+    }
+  })
 }
 
-export { seedDatabase as default, testCourse, testUser, testGuestUser }
+export { seedDatabase as default, testCourse, testCapture, testUser, testGuestUser }

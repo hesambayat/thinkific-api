@@ -63,6 +63,32 @@ const Mutation = {
       }
     }, info)
   },
+  async createCapture(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request)
+    const courseExists = await prisma.exists.Course({
+      id: args.courseId,
+      author: {
+        id: userId
+      }
+    })
+
+    if (!courseExists) {
+      throw new Error('Course not found!')
+    }
+
+    const course = {
+      connect: {
+        id: args.courseId
+      }
+    }
+
+    return prisma.mutation.createCapture({
+      data: {
+        ...args.data,
+        course
+      }
+    })
+  },
   async createUser(parent, args, { prisma }, info) {
     const password = await hashPassword(args.data.password)
 
