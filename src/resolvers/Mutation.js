@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs'
 import generateToken from '../utils/generateToken'
 import hashPassword from '../utils/hashPassword'
 
@@ -34,7 +35,29 @@ const Mutation = {
   },
   async deleteManyUsers(parent, args, { prisma }, info) {
     return prisma.mutation.deleteManyUsers(args, info)
-  }
+  },
+  async login(parent, args, { prisma }, info) {
+    const user = await prisma.query.user({
+      where: {
+        email: args.data.email
+      }
+    })
+
+    if (!user) {
+      throw new Error('Email or password is wrong')
+    }
+
+    const isMatch = await bcrypt.compare(args.data.password, user.password)
+
+    if (!isMatch) {
+      throw new Error('Email or password, is wrong')
+    }
+
+    return {
+      user,
+      token: generateToken(user.id)
+    }
+  },
 }
 
 export { Mutation as default }
