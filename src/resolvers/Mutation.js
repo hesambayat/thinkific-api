@@ -31,6 +31,9 @@ const Mutation = {
       user,
       token: generateToken(user.id)
     }
+  },
+  async deleteManyUsers(parent, args, { prisma }, info) {
+    return prisma.mutation.deleteManyUsers(args, info)
   }
 }
 
