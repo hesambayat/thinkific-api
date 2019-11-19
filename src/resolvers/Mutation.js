@@ -44,6 +44,25 @@ const Mutation = {
       data: args.data
     }, info)
   },
+  async deleteCourse(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request)
+    const courseExists = await prisma.exists.Course({
+      id: args.id,
+      author: {
+        id: userId
+      }
+    })
+
+    if (!courseExists) {
+      throw new Error('Course not found!')
+    }
+
+    return prisma.mutation.deleteCourse({
+      where: {
+        id: args.id
+      }
+    }, info)
+  },
   async createUser(parent, args, { prisma }, info) {
     const password = await hashPassword(args.data.password)
 

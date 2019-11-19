@@ -28,6 +28,17 @@ const updateCourse = gql`
   }
 `
 
+const deleteCourse = gql`
+  mutation($id: ID!) {
+    deleteCourse(
+      id: $id
+    ){
+      id
+      name
+    }
+  }
+`
+
 const createUser = gql`
   mutation($data: UserCreateInput!) {
     createUser(
@@ -76,4 +87,4 @@ const login = gql`
   }
 `
 
-export { createCourse, updateCourse, createUser, getProfile, getUsers, login }
+export { createCourse, updateCourse, deleteCourse, createUser, getProfile, getUsers, login }

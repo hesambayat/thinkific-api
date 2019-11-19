@@ -9,6 +9,7 @@ type Mutation {
   createUser(data: UserCreateInput!): AuthPayload!
   createCourse(data: CourseCreateInput!): Course!
   updateCourse(id: ID!, data: CourseUpdateInput!): Course!
+  deleteCourse(id: ID!): Course!
   login(data: LoginUserInput!): AuthPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
