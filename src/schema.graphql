@@ -6,7 +6,8 @@ type Query {
 }
 
 type Mutation {
-  createUser(data: CreateUserInput!): AuthPayload!
+  createUser(data: UserCreateInput!): AuthPayload!
+  createCourse(data: CourseCreateInput!): Course!
   login(data: LoginUserInput!): AuthPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
@@ -16,10 +17,14 @@ type AuthPayload {
   user: User!
 }
 
-input CreateUserInput {
+input UserCreateInput {
   name: String!
   email: String!
   password: String!
+}
+
+input CourseCreateInput {
+  name: String!
 }
 
 input LoginUserInput {
@@ -32,6 +37,14 @@ type User {
   name: String!
   email: String
   password: String!
+  updatedAt: String!
+  createdAt: String!
+}
+
+type Course {
+  id: ID!
+  name: String!
+  author: User
   updatedAt: String!
   createdAt: String!
 }

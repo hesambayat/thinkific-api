@@ -1,8 +1,29 @@
 import bcrypt from 'bcryptjs'
+import getUserId from '../utils/getUserId'
 import generateToken from '../utils/generateToken'
 import hashPassword from '../utils/hashPassword'
 
 const Mutation = {
+  async createCourse(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request)
+
+    if (!args.data.name.trim()) {
+      throw new Error('Name is required')
+    }
+
+    const author = {
+      connect: {
+        id: userId
+      }
+    }
+
+    return prisma.mutation.createCourse({
+      data: {
+        ...args.data,
+        author
+      }
+    })
+  },
   async createUser(parent, args, { prisma }, info) {
     const password = await hashPassword(args.data.password)
 

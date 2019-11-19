@@ -29,7 +29,7 @@ test('Should not signup user with invalid password', async () => {
   const variables = {
     data: {
       name: 'Rob',
-      email: 'bob@example.com',
+      email: 'rob@example.com',
       password: '1234'
     }
   }
