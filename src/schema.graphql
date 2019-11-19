@@ -1,11 +1,23 @@
-# import UserOrderByInput, UserWhereInput from './generated/prisma.graphql'
+# import CourseUpdateInput, CaptureUpdateInput, ContentUpdateInput, UserOrderByInput, UserWhereInput, BatchPayload from './generated/prisma.graphql'
 
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  me: User!
 }
 
 type Mutation {
-  createUser(data: CreateUserInput!): AuthPayload!
+  createUser(data: UserCreateInput!): AuthPayload!
+  createCourse(data: CourseCreateInput!): Course!
+  updateCourse(id: ID!, data: CourseUpdateInput!): Course!
+  deleteCourse(id: ID!): Course!
+  createCapture(courseId: ID!, data: CaptureCreateInput!): Capture!
+  updateCapture(courseId: ID!, id: ID!, data: CaptureUpdateInput!): Capture!
+  deleteCapture(courseId: ID!, id: ID!): Capture!
+  createContent(courseId: ID!, captureId: ID!, data: ContentCreateInput!): Content!
+  updateContent(courseId: ID!, captureId: ID!, id: ID!, data: ContentUpdateInput!): Content!
+  deleteContent(courseId: ID!, captureId: ID!, id: ID!): Content!
+  login(data: LoginUserInput!): AuthPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
 
 type AuthPayload {
@@ -13,8 +25,29 @@ type AuthPayload {
   user: User!
 }
 
-input CreateUserInput {
+input UserCreateInput {
   name: String!
+  email: String!
+  password: String!
+}
+
+input CourseCreateInput {
+  name: String!
+}
+
+input CaptureCreateInput {
+  title: String!
+  order: Int
+}
+
+input ContentCreateInput {
+  title: String!
+  data: String
+  type: String
+  order: Int
+}
+
+input LoginUserInput {
   email: String!
   password: String!
 }
@@ -22,8 +55,43 @@ input CreateUserInput {
 type User {
   id: ID!
   name: String!
-  email: String!
+  email: String
   password: String!
+  courses: [Course!]
+  updatedAt: String!
+  createdAt: String!
+}
+
+type Course {
+  id: ID!
+  name: String!
+  subtitle: String
+  desciption: String
+  price: Float
+  duration: Float
+  author: User
+  captures: [Capture!]
+  updatedAt: String!
+  createdAt: String!
+}
+
+type Capture {
+  id: ID!
+  title: String!
+  order: Int!
+  course: Course
+  contents: [Content!]
+  updatedAt: String!
+  createdAt: String!
+}
+
+type Content {
+  id: ID!
+  title: String!
+  data: String
+  type: String
+  order: Int!
+  capture: Capture
   updatedAt: String!
   createdAt: String!
 }
