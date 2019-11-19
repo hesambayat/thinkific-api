@@ -93,7 +93,12 @@ const Mutation = {
       token: generateToken(user.id)
     }
   },
-  async deleteManyUsers(parent, args, { prisma }, info) {
+  async deleteManyUsers(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request)
+    if (!userId) {
+      throw new Error('No script kiddies, please!')
+    }
+
     return prisma.mutation.deleteManyUsers(args, info)
   },
   async login(parent, args, { prisma }, info) {
