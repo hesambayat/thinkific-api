@@ -1,6 +1,6 @@
 import 'cross-fetch/polyfill'
 import prisma from '../src/prisma'
-import seedDatabase, { testUser, testCourse } from './utils/seedDatabase'
+import seedDatabase, { testUser, testGuestUser, testCourse } from './utils/seedDatabase'
 import getClient from './utils/getClient'
 import { createCourse, updateCourse } from './utils/operations'
 
@@ -36,4 +36,18 @@ test('Should update a course', async () => {
   })
 
   expect(response.data.updateCourse.price).toBe(variables.data.price)
+})
+
+test('Should not update other users\' course', async () => {
+  const client = await getClient(testGuestUser.jwt)
+  const variables = {
+    id : testCourse.course.id,
+    data: {
+      price: 0.99
+    }
+  }
+
+  await expect(
+    client.mutate({ mutation: updateCourse, variables })
+  ).rejects.toThrow()
 })
