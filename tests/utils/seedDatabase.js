@@ -24,6 +24,16 @@ const testUser = {
   jwt: undefined
 }
 
+const testGuestUser = {
+  input: {
+    name: 'Joe',
+    email: 'joe@example.com',
+    password: bcrypt.hashSync('joeboy!@#$')
+  },
+  user: undefined,
+  jwt: undefined
+}
+
 const seedDatabase = async () => {
   // Delete test data
   await prisma.mutation.deleteManyUsers()
@@ -33,6 +43,12 @@ const seedDatabase = async () => {
     data: testUser.input
   })
   testUser.jwt = jwt.sign({ userId: testUser.user.id }, process.env.JWT_SECRET)
+
+  // Create test guest user
+  testGuestUser.user = await prisma.mutation.createUser({
+    data: testGuestUser.input
+  })
+  testGuestUser.jwt = jwt.sign({ userId: testGuestUser.user.id }, process.env.JWT_SECRET)
 
   // Create test course
   testCourse.course = await prisma.mutation.createCourse({
@@ -47,4 +63,4 @@ const seedDatabase = async () => {
   })
 }
 
-export { seedDatabase as default, testCourse, testUser }
+export { seedDatabase as default, testCourse, testUser, testGuestUser }

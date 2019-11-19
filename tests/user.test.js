@@ -42,7 +42,7 @@ test('Should not signup user with invalid password', async () => {
 test('Should expose public user profile', async () => {
   const response = await client.query({ query: getUsers })
 
-  expect(response.data.users.length).toBe(1)
+  expect(response.data.users.length).toBe(2)
   expect(response.data.users[0].email).toBe(null)
   expect(response.data.users[0].name).toBe('Sara')
 })
