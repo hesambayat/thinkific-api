@@ -1,5 +1,7 @@
 # thinkific - The API
 
+Link to the app repo [https://github.com/hesambayat/thinkific-app](https://github.com/hesambayat/thinkific-app)
+
 ### Installation
 ```
 git clone git@github.com:hesambayat/thinkific-api.git .
