@@ -1,7 +1,8 @@
-# import CourseUpdateInput, CaptureUpdateInput, ContentUpdateInput, UserOrderByInput, UserWhereInput, BatchPayload from './generated/prisma.graphql'
+# import CourseUpdateInput, CaptureUpdateInput, ContentUpdateInput, UserOrderByInput, UserWhereInput, BatchPayload, CourseWhereUniqueInput from './generated/prisma.graphql'
 
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  course(where: CourseWhereUniqueInput): Course
   me: User!
 }
 
